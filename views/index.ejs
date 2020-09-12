@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        message-board
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <h1>
+        <a href="/">メッセージ</a>
+    </h1>
+    <div>
+        <h2>メッセージ登録</h2>
+        <form action="/messages" method="post">
+            <input type="text" name="content">
+            <input type="submit" value="作成">
+        </form>
+    </div>
+    <div>
+        <h2>メッセージ一覧</h2>
+        <ul>
+            <% messages.map(function(content) { %>
+                <li>
+                    <p>
+                        <%= content.content %>
+                    </p>
+                    <a href="/messages/<%= content.id %>/edit">
+                        <button>編集</button>
+                    </a>
+                    <form action="/messages/<%= content.id %>" method="post">
+                        <input type="hidden" name="_method" value="delete">
+                        <input type="submit" value="削除">
+                    </form>
+                </li>
+                <% }); %>
+        </ul>
+    </div>
+</body>
+
+</html>

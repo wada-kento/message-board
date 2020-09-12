@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <h1>編集リスト</h1>
+    <form action="/messages/<%= content.id %> " method="post">
+        <input type="hidden" name="_method" value="put">
+        <input type="text" name="content" value="<%= content.content %> ">
+        <input type="submit" value="更新">
+    </form>
+</body>
+
+</html>
