@@ -8,9 +8,9 @@
 
 <body>
     <h1>編集リスト</h1>
-    <form action="/messages/<%= content.id %> " method="post">
+    <form action="/messages/<%= message.id %> " method="post">
         <input type="hidden" name="_method" value="put">
-        <input type="text" name="content" value="<%= content.content %> ">
+        <input type="text" name="content" value="<%= message.content %> ">
         <input type="submit" value="更新">
     </form>
 </body>

@@ -3,23 +3,23 @@ const {
     Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-    class message extends Model {
+    class reply extends Model {
         /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            message.hasMany(models.reply)
+            reply.belongsTo(models.message)
         };
     };
-    message.init({
+    reply.init({
         content: DataTypes.STRING,
-        is_deleted: DataTypes.BOOLEAN
+        message_id: DataTypes.INTEGER
     }, {
         sequelize,
-        modelName: 'message',
+        modelName: 'reply',
         underscored: true,
     });
-    return message;
+    return reply;
 };

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <h1>ゴミ箱</h1>
+    <div>
+        <a href="/messages">
+            <button>一覧表示</button>
+        </a>
+    </div>
+    <ul>
+        <% messages.map(function(message) { %>
+            <li>
+                <p>
+                    <%= message.content %>
+                </p>
+                <form action="/messages/trash/<%= message.id %>" method="post">
+                    <input type="hidden" name="_method" value="delete">
+                    <input type="submit" value="完全に削除">
+                </form>
+            </li>
+            <% }); %>
+    </ul>
+</body>
+
+</html>

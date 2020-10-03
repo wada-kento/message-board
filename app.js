@@ -33,8 +33,13 @@ app.get('/', function(req, res) {
 });
 
 app.get('/messages', function(req, res) {
-    db.message.findAll().then(function(yee) {
-        res.render('index.ejs', { messages: yee });
+    const options = {
+        where: {
+            is_deleted: false
+        }
+    };
+    db.message.findAll(options).then(function(results) {
+        res.render('index.ejs', { messages: results });
     });
 });
 
@@ -48,19 +53,22 @@ app.post('/messages', function(req, res) {
 });
 
 app.delete('/messages/:id', function(req, res) {
+    const params = {
+        is_deleted: true
+    };
     const options = {
         where: {
             id: req.params.id
         }
     };
-    db.message.destroy(options).then(function(results) {
+    db.message.update(params, options).then(function(results) {
         res.redirect('/messages');
     });
 });
 
 app.get('/messages/:id/edit', function(req, res) {
-    db.message.findByPk(req.params.id).then(function(yee) {
-        res.render('edit.ejs', { content: yee });
+    db.message.findByPk(req.params.id).then(function(results) {
+        res.render('edit.ejs', { message: results });
     });
 });
 
@@ -77,6 +85,48 @@ app.put('/messages/:id', function(req, res) {
         res.redirect('/messages');
     });
 });
+
+app.get('/messages/trash', function(req, res) {
+    const options = {
+        is_deleted: 1
+    };
+    db.message.findAll(options).then(function(results) {
+        res.render('trash.ejs', { messages: results });
+    });
+});
+
+app.delete('/messages/trash/:id', function(req, res) {
+    const options = {
+        where: {
+            id: req.params.id
+        }
+    };
+    db.message.destroy(options).then(function(results) {
+        res.redirect('/messages/trash');
+    });
+});
+
+app.get('/messages/:id', function(req, res) {
+    const options = {
+        include: [{
+            model: db.reply
+        }]
+    }
+    db.message.findByPk(req.params.id, options).then(function(results) {
+        res.render('show.ejs', { message: results });
+    });
+});
+
+app.post('/replies', function(req, res) {
+    const values = {
+        content: req.body.replyContent,
+        message_id: req.body.messageId
+    };
+    db.reply.create(values).then(function(results) {
+        res.redirect('/messages/' + req.body.messageId);
+    });
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));

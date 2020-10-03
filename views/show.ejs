@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <h1>メッセージ</h1>
+    <div>
+        <h2>
+            <%= message.content %>
+        </h2>
+        <ul>
+            <% message.replies.map(function(reply) { %>
+                <li>
+                    <p>
+                        <%= reply.content %>
+                    </p>
+                </li>
+                <% }); %>
+        </ul>
+    </div>
+    <div>
+        <h1>返信する</h1>
+        <form action="/replies" method="post">
+            <input type="hidden" name="messageId" value="<%= message.id %>">
+            <input type="text" name="replyContent">
+            <input type="submit" value="作成">
+        </form>
+    </div>
+    <div>
+        <a href="/messages">
+            一覧表示
+        </a>
+    </div>
+</body>
+
+</html>

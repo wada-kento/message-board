@@ -21,17 +21,25 @@
         </form>
     </div>
     <div>
+        <a href="/messages/trash">
+            <button>ゴミ箱</button>
+        </a>
+    </div>
+    <div>
         <h2>メッセージ一覧</h2>
         <ul>
-            <% messages.map(function(content) { %>
+            <% messages.map(function(message) { %>
                 <li>
                     <p>
-                        <%= content.content %>
+                        <%= message.content %>
                     </p>
-                    <a href="/messages/<%= content.id %>/edit">
-                        <button>編集</button>
+                    <a href="/messages/<%= message.id %>/edit">
+                        編集
                     </a>
-                    <form action="/messages/<%= content.id %>" method="post">
+                    <a href="/messages/<%= message.id %>">
+                        詳細
+                    </a>
+                    <form action="/messages/<%= message.id %>" method="post">
                         <input type="hidden" name="_method" value="delete">
                         <input type="submit" value="削除">
                     </form>
